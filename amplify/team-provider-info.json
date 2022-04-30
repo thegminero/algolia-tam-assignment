@@ -10,6 +10,14 @@
       "StackName": "amplify-algoliatamassignment-dev-191020",
       "StackId": "arn:aws:cloudformation:us-east-1:403235204874:stack/amplify-algoliatamassignment-dev-191020/60d642b0-c748-11ec-8364-0a167e2686b1",
       "AmplifyAppId": "d3qwhyfieddhw"
+    },
+    "categories": {
+      "function": {
+        "indexer": {
+          "deploymentBucketName": "amplify-algoliatamassignment-dev-191020-deployment",
+          "s3Key": "amplify-builds/indexer-333341446c4637757162-build.zip"
+        }
+      }
     }
   }
 }

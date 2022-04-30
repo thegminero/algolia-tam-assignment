@@ -1,1 +1,9 @@
-{}
+{
+  "function": {
+    "indexer": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  }
+}

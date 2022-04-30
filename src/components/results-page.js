@@ -1,12 +1,19 @@
 import algoliasearch from 'algoliasearch';
 import instantsearch from 'instantsearch.js';
-import { searchBox, hits, pagination, refinementList } from 'instantsearch.js/es/widgets';
+import { createInsightsMiddleware } from 'instantsearch.js/es/middlewares';
+import {
+  searchBox,
+  hits,
+  pagination,
+  refinementList,
+} from 'instantsearch.js/es/widgets';
+import aa from 'search-insights';
 
 import resultHit from '../templates/result-hit';
 
 /**
  * @class ResultsPage
- * @description Instant Search class to display content on main page
+ * @description Instant Search class to display content on main page.
  */
 class ResultPage {
   constructor() {
@@ -15,27 +22,39 @@ class ResultPage {
     this._startSearch();
   }
 
+  // eslint-disable-next-line jsdoc/require-description
   /**
    * @private
    * Handles creating the search client and creating an instance of instant search
-   * @return {void}
+   * @returns {void}
    */
   _registerClient() {
     this._searchClient = algoliasearch(
-      process.env.ALGOLIA_APP_ID,
-      process.env.ALGOLIA_API_KEY
+      'LTBRQZ4V1G',
+      '0cb6538cfbc3b75986a59896f3642ca0'
     );
 
     this._searchInstance = instantsearch({
-      indexName: process.env.ALGOLIA_INDEX,
+      indexName: 'ElectronicProducts',
       searchClient: this._searchClient,
     });
+
+    // register insights token/user
+    aa('setUserToken', 'discount-user');
+
+    // add insights middleware for events
+    this._insightsMiddleware = createInsightsMiddleware({
+      insightsClient: aa,
+    });
+
+    this._searchInstance.use(this._insightsMiddleware);
   }
 
+  // eslint-disable-next-line jsdoc/require-description
   /**
    * @private
    * Adds widgets to the Algolia instant search instance
-   * @return {void}
+   * @returns {void}
    */
   _registerWidgets() {
     this._searchInstance.addWidgets([
@@ -61,11 +80,11 @@ class ResultPage {
       }),
     ]);
   }
-
+  // eslint-disable-next-line jsdoc/require-description
   /**
    * @private
    * Starts instant search after widgets are registered
-   * @return {void}
+   * @returns {void}
    */
   _startSearch() {
     this._searchInstance.start();

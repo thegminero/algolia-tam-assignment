@@ -9,5 +9,4 @@ class SpencerAndWilliamsSearch {
     this.resultPage = new ResultsPage();
   }
 }
-
 const app = new SpencerAndWilliamsSearch();
