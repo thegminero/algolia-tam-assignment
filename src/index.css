@@ -8,3 +8,30 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
+
+/*Cart with Badge*/
+.cart {
+  background-color: #555;
+  color: white;
+  text-decoration: none;
+  padding: 15px 15px 0px 5px ;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+  margin-left: 25px;
+  right: 0;
+}
+
+.cart:hover {
+  background: rgb(129, 125, 125);
+}
+
+.cart .badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background: limegreen;
+  color: white;
+}

@@ -15,7 +15,7 @@
       "function": {
         "indexer": {
           "deploymentBucketName": "amplify-algoliatamassignment-dev-191020-deployment",
-          "s3Key": "amplify-builds/indexer-333341446c4637757162-build.zip"
+          "s3Key": "amplify-builds/indexer-6249714c355867594d61-build.zip"
         }
       }
     }

@@ -210,3 +210,48 @@ button {
   text-decoration: none;
   cursor: pointer;
 }
+  /*cart checkout*/
+.cart-container {
+    border-radius: 5px;
+    padding: 0 0 0 .5em;
+    background-color: white;
+    width: 450px;
+    position:absolute; 
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    right:0; 
+    margin-right: 13%; 
+    margin-top: 28em;
+  }
+.cart-container > h4 {
+    display: flex;
+    flex-flow: row;
+    align-content: center;
+}
+
+.hidden{
+  visibility: hidden;
+}
+span.price {
+  float: right;
+  color: grey;
+}
+.checkout-options{
+  display: flex;
+  flex-direction: column;
+}
+.checkout-options > button {
+  margin-top: 5px;;
+  border-radius: 5px;
+  border: none;
+  outline: 0;
+  padding: 10px;
+  color: white;
+  background-color: gray;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 15px;
+}
+.checkout-options > button:hover{
+  background-color: black;
+}

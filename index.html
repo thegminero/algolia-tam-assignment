@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -27,7 +26,7 @@
   <header class="header">
     <div class="header__container">
       <div class="header__logo-container">
-        <img class="header__logo" src="src/Assets/logo.svg">
+        <img class="header__logo" src="src/Assets/logo.svg" />
       </div>
       <div class="header__searchbox-container">
         <div class="header__searchbox" id="searchbox"></div>
@@ -38,7 +37,40 @@
           </div>
         </div>
       </div>
+      <a href="#" class="cart" id="cart">
+        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.75 5.25H6L6.34615 8.25M6.34615 8.25L7.5 15.75H17.25L18.75 8.25H6.34615Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 18.75L9.00788 18.75" stroke="white" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M15 18.75L15.0079 18.75" stroke="white" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span id="cart-badge" class="badge">0</span>
+      </a>
+      <div class="cart-container hidden" id="cart-container">
+        <h4>Cart
+          <span class="price" style="color:black">
+            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.75 5.25H6L6.34615 8.25M6.34615 8.25L7.5 15.75H17.25L18.75 8.25H6.34615Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 18.75L9.00788 18.75" stroke="black" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15 18.75L15.0079 18.75" stroke="black" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            
+          </span>
+          <b class="cart-total" id="cart-total">0</b>
+        </h4>
+        <div class="cart-items" id="cart-items">
+        </div>
+        <hr>
+        <p>Total <span class="price" style="color:black"><b>$</b><b id="final-total">0</b></span></p>
+        <div class="checkout-options">
+          <button class="order-now" id="order-cart">
+            $ Order</button>
+            <button class="emplty-cart" id="emplty-cart">
+            Empty Cart</button>
+        </div>
+      </div>
     </div>
+    </div>
+    
   </header>
 
   <div class="results">
@@ -61,54 +93,91 @@
       </div>
     </div>
   </div>
-
-  <div id="product-modal" class="modal">
-
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <p>Some text in the Modal..</p>
-    </div>
-  
-  </div>
-
   <script src="./src/app.js" type="module"></script>
-  
-  <script>
-  //   document.addEventListener('DOMContentLoaded', (event) => {
-  //     console.log('DOM fully loaded and parsed');
-  //     document.getElementById('add-to-cart').addEventListener('click', () => {
-  //     console.log('prod click');
-  //   })
-  // });
-    // Get the modal
-    document.addEventListener('DOMContentLoaded', (event) => {
-        var modal = document.getElementById("product-modal");
-
-        // Get the button that opens the modal
-        var btn = document.getElementById("view-item");
-        console.log(btn)
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-
-        // When the user clicks on the button, open the modal
-        btn.onclick = function() {
-          modal.style.display = "block";
-        }
-
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-          modal.style.display = "none";
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-          if (event.target == modal) {
-            modal.style.display = "none";
-          }
-        }
+  <script type="text/javascript"> 
+    aa('init', {
+      appId: 'LTBRQZ4V1G',
+      apiKey: '0cb6538cfbc3b75986a59896f3642ca0'
     });
-  </script>
+
+    window.onload = () => {
+      sessionStorage.setItem('ElectronicProductsCart', '{}');
+      addToCartListeners();
+      updateCart();
+    }
+
+    function addToCartListeners(){
+      const cartBtn = document.getElementById('cart');
+      cartBtn.addEventListener('click', cartClick);
+      const cartEmpty = document.getElementById('emplty-cart');
+      cartEmpty.addEventListener("click", emptyCart);
+      // const orderCart = document.getElementById('order-cart');
+      // orderCart.addEventListener("click", simmulateOrder)     
+    }
+  
+    function updateCart(){
+      const cart = JSON.parse(sessionStorage.getItem('ElectronicProductsCart'))
+      const cartItems = Object.keys(cart).length;
+      document.getElementById('cart-badge').innerHTML = cartItems
+      document.getElementById('cart-total').innerHTML = cartItems
+    }
+  
+    function cartClick(){
+      const cartBtn = document.getElementById('cart-container');
+      let totalPrice = 0;
+      cartBtn.classList.toggle('hidden');
+      if(!cartBtn.classList.contains('hidden')){
+        const cart = JSON.parse(sessionStorage.getItem('ElectronicProductsCart'))
+        const cartItems = Object.keys(cart).length;
+        const allCartItems = document.getElementById('cart-items')
+        while (allCartItems.lastChild) {
+          allCartItems.removeChild(allCartItems.lastChild);
+        }
+        for (const item in cart) {
+          const newCartItem = createCartItem(cart[item])
+          allCartItems.append(newCartItem)
+          totalPrice += parseFloat(cart[item].price)
+        }
+        document.getElementById('final-total').innerText = totalPrice
+      }
+    }
+  
+    function createCartItem(cartItem) {
+      const pItem = document.createElement("p");
+      const item = document.createElement("a");
+      item.href="#"
+      item.innerText = cartItem.name
+      const price = document.createElement("span");
+      price.classList.add('price')
+      price.innerText = cartItem.price
+      pItem.append(item, price)
+      return pItem
+    }
+  
+    function emptyCart(){
+      sessionStorage.setItem('ElectronicProductsCart', '{}')
+      window.location.reload()
+    }
+  
+    // function simmulateOrder(){
+    //   const cart = JSON.parse(sessionStorage.getItem('ElectronicProductsCart'))
+    //   for (const item in cart) {
+    //     console.log('coinverting => ', item)
+    //     aa(
+    //     'convertedObjectIDsAfterSearch',
+    //       {
+    //         index: 'ElectronicProducts',
+    //         eventName: 'Product Bought',
+    //         userToken: 'discount-user',
+    //         objectIDs: [item],
+    //         queryID: cart[item].queryId,
+    //       }
+    //     )
+    //   }
+    //   emptyCart();
+    // }
+    </script>
 </body>
 
 </html>
+

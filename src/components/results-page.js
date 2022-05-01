@@ -39,6 +39,60 @@ class ResultPage {
       searchClient: this._searchClient,
     });
 
+    const emptyCart = () => {
+      sessionStorage.setItem('ElectronicProductsCart', '{}');
+      window.location.reload();
+    };
+    // actions to perform when updating cart (mostly badge counts)
+    const updateCart = () => {
+      const cart = JSON.parse(sessionStorage.getItem('ElectronicProductsCart'));
+      const cartItems = Object.keys(cart).length;
+      document.getElementById('cart-badge').innerHTML = cartItems;
+      document.getElementById('cart-total').innerHTML = cartItems;
+    };
+
+    // wait for instasearch hits to render to attach eventListeners to
+    // action items - such as add to cart and view buttons
+    this._searchInstance.on('render', () => {
+      const hitCarts = document.getElementsByClassName('result-hit__cart');
+      const addToCartElms = [...hitCarts];
+      addToCartElms.forEach((addBtn) => {
+        addBtn.addEventListener('click', (event) => {
+          const cartItems = JSON.parse(
+            sessionStorage.getItem('ElectronicProductsCart')
+          );
+          const hitDetails = {
+            queryId: event.target.dataset.queryId,
+            price: event.target.dataset.price,
+            name: event.target.dataset.name,
+          };
+          cartItems[event.target.dataset.objectId] = hitDetails;
+          sessionStorage.setItem(
+            'ElectronicProductsCart',
+            JSON.stringify(cartItems)
+          );
+          updateCart();
+        });
+      });
+
+      document.getElementById('order-cart').addEventListener('click', () => {
+        const cart = JSON.parse(
+          sessionStorage.getItem('ElectronicProductsCart')
+        );
+        // eslint-disable-next-line guard-for-in
+        for (const item in cart) {
+          aa('convertedObjectIDsAfterSearch', {
+            index: 'ElectronicProducts',
+            eventName: 'Product Bought',
+            userToken: 'discount-user',
+            objectIDs: [item],
+            queryID: cart[item].queryId,
+          });
+        }
+        emptyCart();
+      });
+    });
+
     // register insights token/user
     aa('setUserToken', 'discount-user');
 
@@ -46,7 +100,6 @@ class ResultPage {
     this._insightsMiddleware = createInsightsMiddleware({
       insightsClient: aa,
     });
-
     this._searchInstance.use(this._insightsMiddleware);
   }
 
