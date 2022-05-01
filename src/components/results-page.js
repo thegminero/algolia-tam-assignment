@@ -10,7 +10,7 @@ import {
 } from 'instantsearch.js/es/widgets';
 import aa from 'search-insights';
 
-import awsExports from '../../src/aws-exports';
+import awsExports from '../aws-exports';
 import resultHit from '../templates/result-hit';
 
 /**
