@@ -37,10 +37,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-/** ********************
- * Example get method *
- **********************/
-
 app.get('/envars', async (req, res) => {
   const { Parameters } = await new aws.SSM()
     .getParameters({
@@ -51,15 +47,6 @@ app.get('/envars', async (req, res) => {
     })
     .promise();
   res.json({ secrets: Parameters, index: process.env.indexName, url: req.url });
-});
-
-/** **************************
- * Example post method *
- ****************************/
-
-app.post('/item', function (req, res) {
-  // Add your code here
-  res.json({ success: 'post call succeed!', url: req.url, body: req.body });
 });
 
 // Export the app object. When executing the application local this does nothing. However,

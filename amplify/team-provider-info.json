@@ -17,8 +17,11 @@
           "secretsPathAmplifyAppId": "d3qwhyfieddhw",
           "indexName": "ElectronicProducts",
           "deploymentBucketName": "amplify-algoliatamassignment-dev-191020-deployment",
-          "s3Key": "amplify-builds/envars-77656878365431563445-build.zip"
+          "s3Key": "amplify-builds/envars-31506b416a4532767964-build.zip"
         }
+      },
+      "auth": {
+        "algoliatamassignmentd7f935b9": {}
       }
     }
   }
