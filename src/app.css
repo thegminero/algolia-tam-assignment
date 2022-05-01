@@ -93,7 +93,8 @@
 }
 
 .search-panel__results li {
-  width: 30%;
+  width: 255px;
+  max-height: 430px;
 }
 
 .ais-Highlight-highlighted {

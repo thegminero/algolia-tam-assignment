@@ -33,7 +33,10 @@ class ResultPage {
       'LTBRQZ4V1G',
       '0cb6538cfbc3b75986a59896f3642ca0'
     );
-
+    aa('init', {
+      appId: 'LTBRQZ4V1G',
+      apiKey: '0cb6538cfbc3b75986a59896f3642ca0',
+    });
     this._searchInstance = instantsearch({
       indexName: 'ElectronicProducts',
       searchClient: this._searchClient,
