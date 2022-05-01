@@ -94,14 +94,14 @@ class ResultPage {
     });
 
     // add insights middleware for events
-    this._insightsMiddleware = createInsightsMiddleware({
+    const insightsMiddleware = createInsightsMiddleware({
       insightsClient: aa,
     });
 
     // register insights token/user
     aa('setUserToken', 'discount-user');
 
-    this._searchInstance.use(this._insightsMiddleware);
+    this._searchInstance.use(insightsMiddleware);
   }
 
   // eslint-disable-next-line jsdoc/require-description
