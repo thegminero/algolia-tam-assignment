@@ -20,10 +20,13 @@
     "eslint-plugin-jsdoc": "^37.6.1",
     "eslint-plugin-prettier": "^4.0.0",
     "parcel": "^2.2.1",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "process": "^0.11.10",
+    "querystring-es3": "^0.2.1"
   },
   "dependencies": {
     "algoliasearch": "^4.12.0",
+    "aws-amplify": "^4.3.20",
     "instantsearch.js": "^4.37.2",
     "search-insights": "^2.2.1"
   }

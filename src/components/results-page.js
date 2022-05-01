@@ -1,4 +1,5 @@
 import algoliasearch from 'algoliasearch';
+import { Amplify, API, Auth } from 'aws-amplify';
 import instantsearch from 'instantsearch.js';
 import { createInsightsMiddleware } from 'instantsearch.js/es/middlewares';
 import {
@@ -9,6 +10,7 @@ import {
 } from 'instantsearch.js/es/widgets';
 import aa from 'search-insights';
 
+import awsExports from '../../src/aws-exports';
 import resultHit from '../templates/result-hit';
 
 /**
@@ -17,11 +19,16 @@ import resultHit from '../templates/result-hit';
  */
 class ResultPage {
   constructor() {
+    this._registerAWS();
     this._registerClient();
     this._registerWidgets();
     this._startSearch();
   }
 
+  _registerAWS() {
+    Amplify.configure(awsExports);
+    Auth.configure(awsExports);
+  }
   // eslint-disable-next-line jsdoc/require-description
   /**
    * @private
@@ -29,6 +36,19 @@ class ResultPage {
    * @returns {void}
    */
   _registerClient() {
+    const fetchIndexVars = () => {
+      let response;
+      try {
+        response = API.get('tam', '/envars', {
+          responseType: 'json',
+        });
+        return response;
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    const vars = fetchIndexVars();
+    console.log(vars);
     this._searchClient = algoliasearch(
       'LTBRQZ4V1G',
       '0cb6538cfbc3b75986a59896f3642ca0'

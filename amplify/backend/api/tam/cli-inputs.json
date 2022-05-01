@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/envars": {
+      "name": "/envars",
+      "lambdaFunction": "envars",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

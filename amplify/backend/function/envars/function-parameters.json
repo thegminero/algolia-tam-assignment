@@ -1,0 +1,13 @@
+{
+  "lambdaLayers": [],
+  "secretNames": [
+    "AppId",
+    "AlgoliaApiKey"
+  ],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "indexName",
+      "environmentVariableName": "IndexName"
+    }
+  ]
+}
