@@ -93,13 +93,14 @@ class ResultPage {
       });
     });
 
-    // register insights token/user
-    aa('setUserToken', 'discount-user');
-
     // add insights middleware for events
     this._insightsMiddleware = createInsightsMiddleware({
       insightsClient: aa,
     });
+
+    // register insights token/user
+    aa('setUserToken', 'discount-user');
+
     this._searchInstance.use(this._insightsMiddleware);
   }
 
