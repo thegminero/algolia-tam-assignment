@@ -95,11 +95,6 @@
   </div>
   <script src="./src/app.js" type="module"></script>
   <script type="text/javascript"> 
-    aa('init', {
-      appId: 'LTBRQZ4V1G',
-      apiKey: '0cb6538cfbc3b75986a59896f3642ca0'
-    });
-
     window.onload = () => {
       sessionStorage.setItem('ElectronicProductsCart', '{}');
       addToCartListeners();
@@ -111,8 +106,6 @@
       cartBtn.addEventListener('click', cartClick);
       const cartEmpty = document.getElementById('emplty-cart');
       cartEmpty.addEventListener("click", emptyCart);
-      // const orderCart = document.getElementById('order-cart');
-      // orderCart.addEventListener("click", simmulateOrder)     
     }
   
     function updateCart(){

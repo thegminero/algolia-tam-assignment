@@ -20,6 +20,7 @@ or in the "license" file accompanying this file. This file is distributed on an 
 See the License for the specific language governing permissions and limitations under the License.
 */
 
+const aws = require('aws-sdk');
 const express = require('express');
 const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
@@ -40,9 +41,16 @@ app.use(function (req, res, next) {
  * Example get method *
  **********************/
 
-app.get('/envars', function (req, res) {
-  // Add your code here
-  res.json({ success: 'get call succeed!', url: req.url });
+app.get('/envars', async (req, res) => {
+  const { Parameters } = await new aws.SSM()
+    .getParameters({
+      Names: ['AlgoliaApiKey', 'AppId'].map(
+        (secretName) => process.env[secretName]
+      ),
+      WithDecryption: true,
+    })
+    .promise();
+  res.json({ secrets: Parameters, index: process.env.indexName, url: req.url });
 });
 
 /** **************************

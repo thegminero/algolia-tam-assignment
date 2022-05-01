@@ -21,8 +21,6 @@ class ResultPage {
   constructor() {
     this._registerAWS();
     this._registerClient();
-    this._registerWidgets();
-    this._startSearch();
   }
 
   _registerAWS() {
@@ -37,31 +35,74 @@ class ResultPage {
    */
   _registerClient() {
     const fetchIndexVars = () => {
-      let response;
-      try {
-        response = API.get('tam', '/envars', {
-          responseType: 'json',
-        });
-        return response;
-      } catch (e) {
-        console.log(e);
-      }
+      const response = API.get('tam', '/envars', {
+        responseType: 'json',
+      });
+      return response;
     };
-    const vars = fetchIndexVars();
-    console.log(vars);
-    this._searchClient = algoliasearch(
-      'LTBRQZ4V1G',
-      '0cb6538cfbc3b75986a59896f3642ca0'
-    );
-    aa('init', {
-      appId: 'LTBRQZ4V1G',
-      apiKey: '0cb6538cfbc3b75986a59896f3642ca0',
-    });
-    this._searchInstance = instantsearch({
-      indexName: 'ElectronicProducts',
-      searchClient: this._searchClient,
-    });
+    fetchIndexVars()
+      .then((res) => {
+        this._searchClient = algoliasearch(
+          res.secrets[1].Value,
+          res.secrets[0].Value
+        );
+        this._searchInstance = instantsearch({
+          indexName: 'ElectronicProducts',
+          searchClient: this._searchClient,
+        });
+      })
+      .then(() => {
+        this._addBindEvents();
+        this._registerWidgets();
+        this._startSearch();
+      });
+  }
 
+  // eslint-disable-next-line jsdoc/require-description
+  /**
+   * @private
+   * Adds widgets to the Algolia instant search instance
+   * @returns {void}
+   */
+  _registerWidgets() {
+    if (this._searchInstance) {
+      this._searchInstance.addWidgets([
+        searchBox({
+          container: '#searchbox',
+        }),
+        hits({
+          container: '#hits',
+          templates: {
+            item: resultHit,
+          },
+        }),
+        pagination({
+          container: '#pagination',
+        }),
+        refinementList({
+          container: '#brand-facet',
+          attribute: 'brand',
+        }),
+        refinementList({
+          container: '#categories-facet',
+          attribute: 'categories',
+        }),
+      ]);
+    }
+  }
+  // eslint-disable-next-line jsdoc/require-description
+  /**
+   * @private
+   * Starts instant search after widgets are registered
+   * @returns {void}
+   */
+  _startSearch() {
+    if (this._searchInstance) {
+      this._searchInstance.start();
+    }
+  }
+
+  _addBindEvents() {
     const emptyCart = () => {
       sessionStorage.setItem('ElectronicProductsCart', '{}');
       window.location.reload();
@@ -73,6 +114,16 @@ class ResultPage {
       document.getElementById('cart-badge').innerHTML = cartItems;
       document.getElementById('cart-total').innerHTML = cartItems;
     };
+
+    // add insights middleware for events
+    const insightsMiddleware = createInsightsMiddleware({
+      insightsClient: aa,
+    });
+
+    // register insights token/user
+    aa('setUserToken', 'discount-user');
+
+    this._searchInstance.use(insightsMiddleware);
 
     // wait for instasearch hits to render to attach eventListeners to
     // action items - such as add to cart and view buttons
@@ -97,74 +148,22 @@ class ResultPage {
           updateCart();
         });
       });
-
-      document.getElementById('order-cart').addEventListener('click', () => {
-        const cart = JSON.parse(
-          sessionStorage.getItem('ElectronicProductsCart')
-        );
-        // eslint-disable-next-line guard-for-in
-        for (const item in cart) {
-          aa('convertedObjectIDsAfterSearch', {
-            index: 'ElectronicProducts',
-            eventName: 'Product Bought',
-            userToken: 'discount-user',
-            objectIDs: [item],
-            queryID: cart[item].queryId,
-          });
-        }
-        emptyCart();
-      });
     });
 
-    // add insights middleware for events
-    const insightsMiddleware = createInsightsMiddleware({
-      insightsClient: aa,
+    document.getElementById('order-cart').addEventListener('click', () => {
+      const cart = JSON.parse(sessionStorage.getItem('ElectronicProductsCart'));
+      // eslint-disable-next-line guard-for-in
+      for (const item in cart) {
+        aa('convertedObjectIDsAfterSearch', {
+          index: 'ElectronicProducts',
+          eventName: 'Product Bought',
+          userToken: 'discount-user',
+          objectIDs: [item],
+          queryID: cart[item].queryId,
+        });
+      }
+      emptyCart();
     });
-
-    // register insights token/user
-    aa('setUserToken', 'discount-user');
-
-    this._searchInstance.use(insightsMiddleware);
-  }
-
-  // eslint-disable-next-line jsdoc/require-description
-  /**
-   * @private
-   * Adds widgets to the Algolia instant search instance
-   * @returns {void}
-   */
-  _registerWidgets() {
-    this._searchInstance.addWidgets([
-      searchBox({
-        container: '#searchbox',
-      }),
-      hits({
-        container: '#hits',
-        templates: {
-          item: resultHit,
-        },
-      }),
-      pagination({
-        container: '#pagination',
-      }),
-      refinementList({
-        container: '#brand-facet',
-        attribute: 'brand',
-      }),
-      refinementList({
-        container: '#categories-facet',
-        attribute: 'categories',
-      }),
-    ]);
-  }
-  // eslint-disable-next-line jsdoc/require-description
-  /**
-   * @private
-   * Starts instant search after widgets are registered
-   * @returns {void}
-   */
-  _startSearch() {
-    this._searchInstance.start();
   }
 }
 
