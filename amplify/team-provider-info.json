@@ -18,6 +18,10 @@
           "indexName": "ElectronicProducts",
           "deploymentBucketName": "amplify-algoliatamassignment-dev-191020-deployment",
           "s3Key": "amplify-builds/envars-31506b416a4532767964-build.zip"
+        },
+        "dataindexer": {
+          "deploymentBucketName": "amplify-algoliatamassignment-dev-191020-deployment",
+          "s3Key": "amplify-builds/dataindexer-6f305231595862315643-build.zip"
         }
       },
       "auth": {

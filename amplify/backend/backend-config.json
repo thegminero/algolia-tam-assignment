@@ -5,6 +5,11 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": []
+    },
+    "dataindexer": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "api": {
