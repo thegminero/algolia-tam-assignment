@@ -4,7 +4,14 @@ const resultHit = (hit, bindEvent) => `<a class="result-hit">
   </div>
   <div class="result-hit__details">
     <h3 class="result-hit__name">${hit._highlightResult.name.value}</h3>
+    <div class="result-hit__prices">
+    ${
+      hit.has_discount
+        ? `<p class="result-hit__original">$${hit.original_price}</p>`
+        : ''
+    }
     <p class="result-hit__price">$${hit.price}</p>
+    </div>
   </div>
   <div class="result-hit__controls">
     <button type="button" id="view-item" class="result-hit__view" ${bindEvent(

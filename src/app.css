@@ -135,6 +135,15 @@
 .result-hit:hover{
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
+.result-hit__prices{
+  display: flex;
+  justify-content: space-around;
+}
+.result-hit__original{
+  font-size: 22px;
+  color: red;
+  text-decoration: line-through;
+}
 .result-hit__price{
   color: grey;
   font-size: 22px;

@@ -24,6 +24,8 @@ type Product struct {
 	HierarchicalCategories map[string]string `json:"hierarchicalCategories"`
 	Type                   string            `json:"type"`
 	Price                  float64           `json:"price"`
+	OriginalPrice          float64           `json:"original_price"`
+	Discount               bool              `json:"has_discount"`
 	PriceRange             string            `json:"price_range"`
 	Image                  string            `json:"image"`
 	Url                    string            `json:"url"`
@@ -102,6 +104,8 @@ func indexProductItems(json_data string) {
 			// round to the lowest whole integer and update product index from slice
 			// after reducing cost by 20%
 			products[i].Price = float64(int64(product.Price - perc))
+			products[i].OriginalPrice = product.Price
+			products[i].Discount = true
 		}
 	}
 	// Batching is done automatically by the API client

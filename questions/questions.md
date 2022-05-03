@@ -74,8 +74,8 @@ Hi Marc,
 
 Sorry to hear that your website is not working, for us to be able to better asisst you, could you share the following details?
 
-- website link where this issue happens.
-- steps to reproduce (if any).
+- Website link where this issue happens.
+- Steps to reproduce (if any).
 - Algolia App and index name.
 
 If for some reason, we are not able to reproduce, please share with us your availability, so we can organize a meeting to review the error you are experiencing.
