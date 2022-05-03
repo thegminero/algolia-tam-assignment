@@ -1,36 +1,3 @@
 {
-  "dev": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-algoliatamassignment-dev-191020-authRole",
-      "UnauthRoleArn": "arn:aws:iam::403235204874:role/amplify-algoliatamassignment-dev-191020-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::403235204874:role/amplify-algoliatamassignment-dev-191020-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-algoliatamassignment-dev-191020-deployment",
-      "UnauthRoleName": "amplify-algoliatamassignment-dev-191020-unauthRole",
-      "StackName": "amplify-algoliatamassignment-dev-191020",
-      "StackId": "arn:aws:cloudformation:us-east-1:403235204874:stack/amplify-algoliatamassignment-dev-191020/60d642b0-c748-11ec-8364-0a167e2686b1",
-      "AmplifyAppId": "d3qwhyfieddhw"
-    },
-    "categories": {
-      "function": {
-        "envars": {
-          "secretsPathAmplifyAppId": "d3qwhyfieddhw",
-          "indexName": "ElectronicProducts",
-          "deploymentBucketName": "amplify-algoliatamassignment-dev-191020-deployment",
-          "s3Key": "amplify-builds/envars-31506b416a4532767964-build.zip"
-        },
-        "dataindexer": {
-          "deploymentBucketName": "amplify-algoliatamassignment-dev-191020-deployment",
-          "s3Key": "amplify-builds/dataindexer-6649366f6b5571423456-build.zip",
-          "appId": "LTBRQZ4V1G",
-          "algoliaApiKey": "b682ae7efbbd14fd77700de27d719a5a",
-          "algoliaIndex": "ElectronicProducts"
-        }
-      },
-      "auth": {
-        "algoliatamassignmentd7f935b9": {},
-        "true": {}
-      }
-    }
-  }
+  
 }
