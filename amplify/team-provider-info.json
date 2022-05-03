@@ -21,11 +21,15 @@
         },
         "dataindexer": {
           "deploymentBucketName": "amplify-algoliatamassignment-dev-191020-deployment",
-          "s3Key": "amplify-builds/dataindexer-6f305231595862315643-build.zip"
+          "s3Key": "amplify-builds/dataindexer-6649366f6b5571423456-build.zip",
+          "appId": "LTBRQZ4V1G",
+          "algoliaApiKey": "b682ae7efbbd14fd77700de27d719a5a",
+          "algoliaIndex": "ElectronicProducts"
         }
       },
       "auth": {
-        "algoliatamassignmentd7f935b9": {}
+        "algoliatamassignmentd7f935b9": {},
+        "true": {}
       }
     }
   }

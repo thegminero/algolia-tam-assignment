@@ -1,3 +1,25 @@
 {
-  "lambdaLayers": []
+  "lambdaLayers": [],
+  "secretNames": [],
+  "permissions": {
+    "function": {
+      "envars": [
+        "read"
+      ]
+    }
+  },
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "appId",
+      "environmentVariableName": "APP_ID"
+    },
+    {
+      "cloudFormationParameterName": "algoliaApiKey",
+      "environmentVariableName": "ALGOLIA_API_KEY"
+    },
+    {
+      "cloudFormationParameterName": "algoliaIndex",
+      "environmentVariableName": "ALGOLIA_INDEX"
+    }
+  ]
 }

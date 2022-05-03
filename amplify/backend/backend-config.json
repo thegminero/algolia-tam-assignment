@@ -9,7 +9,16 @@
     "dataindexer": {
       "build": true,
       "providerPlugin": "awscloudformation",
-      "service": "Lambda"
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "envars",
+          "attributes": [
+            "Name"
+          ]
+        }
+      ]
     }
   },
   "api": {
@@ -54,6 +63,13 @@
           "EMAIL"
         ]
       }
+    }
+  },
+  "storage": {
+    "dataindex": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
     }
   }
 }

@@ -93,7 +93,36 @@
       </div>
     </div>
   </div>
+
+  <div id="product-modal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2 id="mod-product-name"></h2>
+        </div>
+        <div class="modal-body">
+          <img src="http://demo.com" id="prod-image" alt="demo" ></img>
+          
+          <h3 id="prod-desc"></h3>
+        </div>
+        <div class="modal-footer">
+          <p>price: <span id="prod-price"> </span></p>
+          <button type="button" id="add-to-cart" class="add-to-cart" data-product-id="">
+            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.75 5.25H6L6.34615 8.25M6.34615 8.25L7.5 15.75H17.25L18.75 8.25H6.34615Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 18.75L9.00788 18.75" stroke="white" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15 18.75L15.0079 18.75" stroke="white" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Add To Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="./src/app.js" type="module"></script>
+
   <script type="text/javascript"> 
     window.onload = () => {
       sessionStorage.setItem('ElectronicProductsCart', '{}');
