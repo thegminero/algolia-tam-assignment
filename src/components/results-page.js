@@ -12,6 +12,10 @@ import aa from 'search-insights';
 
 import awsExports from '../aws-exports';
 import resultHit from '../templates/result-hit';
+import OrderCart from './order-cart';
+
+import UpdateCart from './update-cart';
+import ViewProduct from './view-products';
 
 /**
  * @class ResultsPage
@@ -34,6 +38,7 @@ class ResultPage {
    * @returns {void}
    */
   _registerClient() {
+    // Get Secrets (Api Key and AppId from AWS)
     const fetchIndexVars = () => {
       const response = API.get('tam', '/envars', {
         responseType: 'json',
@@ -101,20 +106,19 @@ class ResultPage {
       this._searchInstance.start();
     }
   }
-
+  _initUpdateToCart() {
+    // Update Cart event DOM propertie and event listener(s)
+    this.updateCart = new UpdateCart();
+  }
+  _initOrderCart() {
+    // Order Cart event listener(s)
+    this.orderCart = new OrderCart();
+  }
+  _initProductViewModal() {
+    // View Product Modal DOM properties and event listener(s)
+    this.viewProdModal = new ViewProduct();
+  }
   _addBindEvents() {
-    const emptyCart = () => {
-      sessionStorage.setItem('ElectronicProductsCart', '{}');
-      window.location.reload();
-    };
-    // actions to perform when updating cart (mostly badge counts)
-    const updateCart = () => {
-      const cart = JSON.parse(sessionStorage.getItem('ElectronicProductsCart'));
-      const cartItems = Object.keys(cart).length;
-      document.getElementById('cart-badge').innerHTML = cartItems;
-      document.getElementById('cart-total').innerHTML = cartItems;
-    };
-
     // add insights middleware for events
     const insightsMiddleware = createInsightsMiddleware({
       insightsClient: aa,
@@ -126,71 +130,13 @@ class ResultPage {
     this._searchInstance.use(insightsMiddleware);
 
     // wait for instasearch hits to render to attach eventListeners to
-    // action items - such as add to cart and view buttons
+    // action items - such as add to cart and view buttons on each hit
     this._searchInstance.on('render', () => {
-      const hitCarts = document.getElementsByClassName('result-hit__cart');
-      const addToCartElms = [...hitCarts];
-      addToCartElms.forEach((addBtn) => {
-        addBtn.addEventListener('click', (event) => {
-          const cartItems = JSON.parse(
-            sessionStorage.getItem('ElectronicProductsCart')
-          );
-          const hitDetails = {
-            queryId: event.target.dataset.queryId,
-            price: event.target.dataset.price,
-            name: event.target.dataset.name,
-          };
-          cartItems[event.target.dataset.objectId] = hitDetails;
-          sessionStorage.setItem(
-            'ElectronicProductsCart',
-            JSON.stringify(cartItems)
-          );
-          updateCart();
-        });
-      });
-      const viewProdcs = document.getElementsByClassName('result-hit__view');
-      const viewProdcsElms = [...viewProdcs];
-      viewProdcsElms.forEach((viewBtn) => {
-        viewBtn.addEventListener('click', (event) => {
-          const modal = document.getElementById('product-modal');
-          modal.style.display = 'block';
-          document.getElementById('mod-product-name').innerText =
-            event.target.dataset.name;
-          const prodImage = document.getElementById('prod-image');
-          prodImage.src = event.target.dataset.image;
-          prodImage.alt = event.target.dataset.name;
-          document.getElementById('prod-price').innerText =
-            event.target.dataset.price;
-          document.getElementById('prod-desc').innerText =
-            event.target.dataset.description;
-          const addToCartModal = document.getElementById('add-to-cart');
-          const prodViewId = event.target.dataset.objectId;
-          addToCartModal.addEventListener('click', () => {
-            document
-              .querySelector(
-                `button.result-hit__cart[data-object-id="${prodViewId}"]`
-              )
-              .click(event);
-            modal.style.display = 'none';
-          });
-        });
-      });
+      this._initUpdateToCart();
+      this._initProductViewModal();
     });
-
-    document.getElementById('order-cart').addEventListener('click', () => {
-      const cart = JSON.parse(sessionStorage.getItem('ElectronicProductsCart'));
-      // eslint-disable-next-line guard-for-in
-      for (const item in cart) {
-        aa('convertedObjectIDsAfterSearch', {
-          index: 'ElectronicProducts',
-          eventName: 'Product Bought',
-          userToken: 'discount-user',
-          objectIDs: [item],
-          queryID: cart[item].queryId,
-        });
-      }
-      emptyCart();
-    });
+    // init the Order Cart Listeners btn
+    this._initOrderCart();
   }
 }
 
