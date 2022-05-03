@@ -1,6 +1,7 @@
 class ViewProduct {
   constructor() {
     this._initViewProduct();
+    this._initModalCloseListeners();
   }
 
   _initViewProduct() {
@@ -32,6 +33,22 @@ class ViewProduct {
         });
       });
     });
+  }
+  _initModalCloseListeners() {
+    // Get the <span> element that closes the modal
+    const span = document.getElementsByClassName('close')[0];
+    // Get the modal element
+    const modal = document.getElementById('product-modal');
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+      modal.style.display = 'none';
+    };
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
   }
   _updateCart() {
     const cart = JSON.parse(sessionStorage.getItem('ElectronicProductsCart'));
