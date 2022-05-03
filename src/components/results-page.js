@@ -12,8 +12,8 @@ import aa from 'search-insights';
 
 import awsExports from '../aws-exports';
 import resultHit from '../templates/result-hit';
-import OrderCart from './order-cart';
 
+import OrderCart from './order-cart';
 import UpdateCart from './update-cart';
 import ViewProduct from './view-products';
 
